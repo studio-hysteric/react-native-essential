@@ -64,8 +64,8 @@ src
 ### Convention
 
 - Folder name should use **Kebab case**
-- Only TSX files should use **Pascal case**, while all other files should use **Camel case**.
-- Prefix custom hooks with use and Higher-Order Components (HOCs) with with.
+- UI file name should use **Pascal case**, while all other files should use **Camel case**.
+- Prefix custom hooks with **use** and Higher-Order Components (HOCs) with **with**.
 
 ### Customization
 
