@@ -1,0 +1,11 @@
+{
+  "name": "react-native-essential",
+  "version": "1.0.0",
+  "description": "React Native Boilerplate",
+  "repository": "git@github.com:Esemesek/react-native-new-template.git",
+  "license": "MIT",
+  "files": [
+    "boilerplate",
+    "template.config.js"
+  ]
+}

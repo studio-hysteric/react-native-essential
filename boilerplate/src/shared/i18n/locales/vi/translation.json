@@ -1,0 +1,48 @@
+{
+  "title": {
+    "boilerplate_name": "React Native Essential",
+    "description": "Bản mẫu React Native dựng sẵn mã bạn đang cần"
+  },
+  "screen": {
+    "start_up": "Khởi động",
+    "example": "Ví dụ"
+  },
+  "example_screen": {
+    "accordion_title": {
+      "components": "Thành phần",
+      "data_fetching": "Nạp Dữ Liệu",
+      "form_handle": "Xử Lý Form",
+      "i18n": "I18N",
+      "switch_theme": "Chuyển Đổi Chủ Đề",
+      "crash_simulate": "Mô Phỏng Crash"
+    },
+    "common": {
+      "language": "Ngôn ngữ",
+      "today": "Hôm nay"
+    }
+  },
+  "form": {
+    "login": {
+      "email_label": "Email",
+      "password_label": "Mật khẩu",
+      "pass_placeholder": "Nhập mật khẩu",
+      "email_error_empty": "Email không được để trống",
+      "email_error_invalid": "Định dạng Email không hợp lệ",
+      "pass_error_empty": "Mật khẩu không được để trống",
+      "pass_error_min_length": "Mật khẩu phải có ít nhất 6 ký tự"
+    }
+  },
+  "actions": {
+    "submit": "Xác nhận",
+    "refetch": "Tải lại",
+    "throw_error": "Bắn lỗi"
+  },
+  "common": {
+    "theme": "Chủ đề"
+  },
+  "error_boundary": {
+    "title": "Oops! Đã xảy ra lỗi",
+    "sub": "Chúng tôi xin lỗi vì sự bất tiện này. Chúng tôi đã nhận được báo cáo, nếu bạn biết thêm gì nữa xin vui lòng liên hệ với chúng tôi",
+    "action": "Tải lại"
+  }
+}

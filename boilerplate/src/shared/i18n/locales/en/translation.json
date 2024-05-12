@@ -1,0 +1,48 @@
+{
+  "title": {
+    "boilerplate_name": "React Native Essential",
+    "description": "The RN starter kit you've always been looking for"
+  },
+  "screen": {
+    "start_up": "Start up",
+    "example": "Example"
+  },
+  "example_screen": {
+    "accordion_title": {
+      "components": "Components",
+      "data_fetching": "Data Fetching",
+      "form_handle": "Form Handle",
+      "i18n": "I18N",
+      "switch_theme": "Switch Theme",
+      "crash_simulate": "Crash Simulate"
+    },
+    "common": {
+      "language": "Language",
+      "today": "Today"
+    }
+  },
+  "form": {
+    "login": {
+      "email_label": "Email",
+      "password_label": "Password",
+      "pass_placeholder": "Type your password",
+      "email_error_empty": "Email is required",
+      "email_error_invalid": "Invalid email format",
+      "pass_error_empty": "Password is required",
+      "pass_error_min_length": "Password must be at least 6 characters"
+    }
+  },
+  "actions": {
+    "submit": "Submit",
+    "refetch": "Refetch",
+    "throw_error": "Throw error"
+  },
+  "common": {
+    "theme": "Theme"
+  },
+  "error_boundary": {
+    "title": "Oops! Something went wrong",
+    "sub": "We apologize for the inconvenience. We have received the report, if you know anything more please contact us",
+    "action": "Reload"
+  }
+}
