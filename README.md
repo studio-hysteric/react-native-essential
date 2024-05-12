@@ -1,4 +1,4 @@
-<p align="center"><img alt="image" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/02f74e69-9ec4-498b-a6b2-6b62b323eeca"></p>
+<p align="center"><img alt="image" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/00fa40d6-609c-498c-9dab-9960c03a604d"></p>
 
 # React Native Essential - The React Native boilerplate focuses on simplicity and stability
 
@@ -97,7 +97,7 @@ yarn res
 
 output:
 
-![image](https://github.com/studio-hysteric/react-native-essential/assets/88200574/d92e3689-cd8d-49ff-a560-9ecfd808d3da)
+![image](https://github.com/studio-hysteric/react-native-essential/assets/88200574/eb5ca9c0-a921-4078-965b-d65208578dec)
 
 - Usage:
 
