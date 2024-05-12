@@ -1,8 +1,10 @@
-<p align="center"><img alt="image" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/00fa40d6-609c-498c-9dab-9960c03a604d"></p>
+<p align="center">
+  <img width="300" alt="splash" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/eb64709c-1f2e-45f2-a83c-2db329c0704e">
+</p>
 
 # React Native Essential - The React Native boilerplate focuses on simplicity and stability
 
-## Requirements
+## 💻 Requirements
 
 It is recommended to use [Node](https://nodejs.org/en) 18 or later.
 
@@ -15,6 +17,14 @@ Create a new project using this template by simply running the command:
 ```
 npx react-native@latest init MyApp --template studio-hysteric/react-native-essential
 ```
+
+## 📸 Screenshot
+
+<p align="center">
+  <img width="250" alt="splash" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/76e274ec-4bf3-44de-9c48-9f72bbb13a52">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="250" alt="splash" src="https://github.com/studio-hysteric/react-native-essential/assets/88200574/dccd4544-732b-4f99-9f17-55ea63c25234">
+</p>
 
 ## 🧑‍💻 Tech stack
 
@@ -83,7 +93,7 @@ The boilerplate comes with some basic components to help you get started:
 - **`IconSvg`**
 - **`ScreenShell`** (wrapper for screen)
 
-> Props and examples for this section will be updated in the future
+> Props and examples for this section will be updated soon
 
 #### Static Assets
 
@@ -247,6 +257,10 @@ The boilerplate comes with **dev** and **staging** env pre-configured
 
 > For example, if you create an env.production file, you should add a type for the env key in src/types/env.d.ts if it hasn't been set
 > Add the line `"start:production": "APP_ENV=production react-native start"` to the scripts section in the `package.json` file.
+
+### 🔧 Troubleshooting
+
+> This section will be updated soon
 
 ### 💭 Alternative
 
