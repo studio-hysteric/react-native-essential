@@ -38,7 +38,9 @@
     "throw_error": "Bắn lỗi"
   },
   "common": {
-    "theme": "Chủ đề"
+    "theme": "Chủ đề",
+    "language": "Ngôn ngữ",
+    "today": "Hôm nay"
   },
   "error_boundary": {
     "title": "Oops! Đã xảy ra lỗi",

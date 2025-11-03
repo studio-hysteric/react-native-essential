@@ -1,121 +1,67 @@
 import { TextProps, TextStyle, ViewProps, ViewStyle } from 'react-native';
 import { CustomStyleProps } from './Box.type';
+import {
+  customTransformers,
+  simpleStyleMap,
+} from './Box.config';
 
-const viewStyleKeys: Array<keyof ViewStyle> = [
-  'alignContent',
-  'alignItems',
-  'alignSelf',
-  'aspectRatio',
-  'borderBottomWidth',
-  'borderEndWidth',
-  'borderLeftWidth',
-  'borderRightWidth',
-  'borderStartWidth',
-  'borderTopWidth',
-  'borderWidth',
-  'bottom',
-  'columnGap',
-  'direction',
-  'display',
-  'end',
-  'flex',
-  'flexBasis',
-  'flexDirection',
-  'flexGrow',
-  'flexShrink',
-  'flexWrap',
-  'gap',
-  'height',
-  'justifyContent',
-  'left',
-  'margin',
-  'marginBottom',
-  'marginEnd',
-  'marginHorizontal',
-  'marginLeft',
-  'marginRight',
-  'marginStart',
-  'marginTop',
-  'marginVertical',
-  'maxHeight',
-  'maxWidth',
-  'minHeight',
-  'minWidth',
-  'overflow',
-  'padding',
-  'paddingBottom',
-  'paddingEnd',
-  'paddingHorizontal',
-  'paddingLeft',
-  'paddingRight',
-  'paddingStart',
-  'paddingTop',
-  'paddingVertical',
-  'position',
-  'right',
-  'rowGap',
-  'start',
-  'top',
-  'width',
-  'zIndex',
-  'shadowColor',
-  'shadowOffset',
-  'shadowOpacity',
-  'shadowRadius',
-  'transform',
-  'backfaceVisibility',
-  'backgroundColor',
-  'borderBottomColor',
-  'borderBottomEndRadius',
-  'borderBottomLeftRadius',
-  'borderBottomRightRadius',
-  'borderBottomStartRadius',
-  'borderColor',
-  'borderCurve',
-  'borderEndColor',
-  'borderEndEndRadius',
-  'borderEndStartRadius',
-  'borderLeftColor',
-  'borderRadius',
-  'borderRightColor',
-  'borderStartColor',
-  'borderStartEndRadius',
-  'borderStartStartRadius',
-  'borderStyle',
-  'borderTopColor',
-  'borderTopEndRadius',
-  'borderTopLeftRadius',
-  'borderTopRightRadius',
-  'borderTopStartRadius',
-  'elevation',
-  'opacity',
-  'pointerEvents',
-];
+/**
+ * Cache for style keys to avoid repeated Object.keys() calls
+ */
+let viewStyleKeysCache: string[] | null = null;
+let textStyleKeysCache: string[] | null = null;
 
-const textStyleKeys: Array<keyof TextStyle> = [
-  ...viewStyleKeys,
-  'color',
-  'fontFamily',
-  'fontSize',
-  'fontStyle',
-  'fontVariant',
-  'fontWeight',
-  'includeFontPadding',
-  'letterSpacing',
-  'lineHeight',
-  'textAlign',
-  'textAlignVertical',
-  'textDecorationColor',
-  'textDecorationLine',
-  'textDecorationStyle',
-  'textShadowColor',
-  'textShadowOffset',
-  'textShadowRadius',
-  'textTransform',
-  'userSelect',
-  'verticalAlign',
-  'writingDirection',
-];
+const getViewStyleKeys = (): string[] => {
+  if (!viewStyleKeysCache) {
+    // Get all keys from an empty ViewStyle object's type
+    // This is more maintainable than manually listing all keys
+    const dummyView: ViewStyle = {} as ViewStyle;
+    viewStyleKeysCache = Object.keys(dummyView);
+
+    // If empty, fallback to common keys
+    if (viewStyleKeysCache.length === 0) {
+      viewStyleKeysCache = [
+        'alignContent', 'alignItems', 'alignSelf', 'aspectRatio',
+        'backgroundColor', 'borderRadius', 'borderWidth', 'borderColor',
+        'bottom', 'display', 'flex', 'flexBasis', 'flexDirection',
+        'flexGrow', 'flexShrink', 'flexWrap', 'gap', 'height', 'width',
+        'justifyContent', 'left', 'right', 'top', 'margin', 'marginBottom',
+        'marginEnd', 'marginHorizontal', 'marginLeft', 'marginRight',
+        'marginStart', 'marginTop', 'marginVertical', 'maxHeight',
+        'maxWidth', 'minHeight', 'minWidth', 'opacity', 'overflow',
+        'padding', 'paddingBottom', 'paddingEnd', 'paddingHorizontal',
+        'paddingLeft', 'paddingRight', 'paddingStart', 'paddingTop',
+        'paddingVertical', 'position', 'zIndex', 'shadowColor',
+        'shadowOffset', 'shadowOpacity', 'shadowRadius', 'transform',
+        'elevation',
+      ];
+    }
+  }
+  return viewStyleKeysCache;
+};
+
+const getTextStyleKeys = (): string[] => {
+  if (!textStyleKeysCache) {
+    textStyleKeysCache = [
+      ...getViewStyleKeys(),
+      'color', 'fontFamily', 'fontSize', 'fontStyle', 'fontVariant',
+      'fontWeight', 'includeFontPadding', 'letterSpacing', 'lineHeight',
+      'textAlign', 'textAlignVertical', 'textDecorationColor',
+      'textDecorationLine', 'textDecorationStyle', 'textShadowColor',
+      'textShadowOffset', 'textShadowRadius', 'textTransform',
+      'userSelect', 'verticalAlign', 'writingDirection',
+    ];
+  }
+  return textStyleKeysCache;
+};
+
+/**
+ * Check if a key is a style property for the target type
+ */
+const isStyleKey = (key: string, target: 'view' | 'text'): boolean => {
+  const styleKeys = target === 'view' ? getViewStyleKeys() : getTextStyleKeys();
+  return styleKeys.includes(key);
+};
 
 type PropsToStyleResolver<T extends 'view' | 'text'> = (
   props: CustomStyleProps,
@@ -125,154 +71,46 @@ type PropsToStyleResolver<T extends 'view' | 'text'> = (
   restProps: T extends 'view' ? ViewProps : TextProps;
 };
 
+/**
+ * Optimized props to style resolver using config-driven approach
+ */
 export const propsToStyleResolver = <T extends 'view' | 'text' = 'view'>(
   props: Parameters<PropsToStyleResolver<T>>[0],
   target: T = 'view' as T,
 ): ReturnType<PropsToStyleResolver<T>> => {
-  let style: ViewStyle | TextStyle = {};
-  let restProps: ViewProps | TextProps = {};
+  const style: ViewStyle | TextStyle = {};
+  const restProps: ViewProps | TextProps = {};
 
-  Object.entries(props).forEach(([key, value]) => {
-    switch (key) {
-      case 'm':
-        style.margin = value;
-        break;
-      case 'ml':
-        style.marginLeft = value;
-        break;
-      case 'mr':
-        style.marginRight = value;
-        break;
-      case 'mb':
-        style.marginBottom = value;
-        break;
-      case 'mt':
-        style.marginTop = value;
-        break;
-      case 'mx':
-        style.marginHorizontal = value;
-        break;
-      case 'my':
-        style.marginVertical = value;
-        break;
-      case 'p':
-        style.padding = value;
-        break;
-      case 'pl':
-        style.paddingLeft = value;
-        break;
-      case 'pr':
-        style.paddingRight = value;
-        break;
-      case 'pb':
-        style.paddingBottom = value;
-        break;
-      case 'pt':
-        style.paddingTop = value;
-        break;
-      case 'px':
-        style.paddingHorizontal = value;
-        break;
-      case 'py':
-        style.paddingVertical = value;
-        break;
-      case 'border':
-        style.borderWidth = Number(value);
-        break;
-      case 'borderX':
-        style.borderLeftWidth = Number(value);
-        style.borderRightWidth = Number(value);
-        break;
-      case 'borderY':
-        style.borderTopWidth = Number(value);
-        style.borderBottomWidth = Number(value);
-        break;
-      case 'rounded':
-        if (value === 'full') {
-          style.borderRadius = 9999;
-        } else {
-          style.borderRadius = value;
-        }
-        break;
-      case 'w':
-        style.width = value;
-        break;
-      case 'wFit':
-        style.alignSelf = value ? 'center' : undefined;
-        break;
-      case 'wFull':
-        style.width = value ? '100%' : undefined;
-        break;
-      case 'h':
-        style.height = value;
-        break;
-      case 'hFull':
-        style.height = value ? '100%' : undefined;
-        break;
-      case 'minW':
-        style.minWidth = value;
-        break;
-      case 'minH':
-        style.minHeight = value;
-        break;
-      case 'maxW':
-        style.maxWidth = value;
-        break;
-      case 'maxH':
-        style.maxHeight = value;
-        break;
-      case 'size':
-        style.width = value;
-        style.height = value;
-        break;
-      case 'flex':
-        if (typeof value === 'boolean') {
-          style.flex = value ? 1 : undefined;
-        } else {
-          style.flex = value;
-        }
-        break;
-      case 'row':
-        style.flexDirection = value ? 'row' : undefined;
-        break;
-      case 'rowReverse':
-        style.flexDirection = value ? 'row-reverse' : undefined;
-        break;
-      case 'colReverse':
-        style.flexDirection = value ? 'column-reverse' : undefined;
-        break;
-      case 'center':
-        if (value) {
-          style.alignItems = 'center';
-          style.justifyContent = 'center';
-        }
-        break;
-      case 'absolute':
-        style.position = value ? 'absolute' : undefined;
-        break;
-      case 'relative':
-        style.position = value ? 'relative' : undefined;
-        break;
-      case 'bg':
-        style.backgroundColor = value;
-        break;
-      case 'ratio':
-        style.aspectRatio = value === 'square' ? 1 : value;
-        break;
-      default:
-        const targetStyleKeys =
-          target === 'view' ? viewStyleKeys : textStyleKeys;
+  for (const [key, value] of Object.entries(props)) {
+    // Skip undefined values
+    if (value === undefined) continue;
 
-        if (
-          !targetStyleKeys.includes(key as keyof ViewStyle | keyof TextStyle)
-        ) {
-          restProps = { ...restProps, [key]: value };
-          return;
-        }
-        style = { ...style, [key]: value };
-        break;
+    // Check if it's a custom transformer (special handling needed)
+    if (key in customTransformers) {
+      const transformed = customTransformers[key](value);
+      Object.assign(style, transformed);
+      continue;
     }
-  });
 
-  return { style, restProps };
+    // Check if it's a simple shorthand mapping
+    if (key in simpleStyleMap) {
+      const styleKey = simpleStyleMap[key as keyof typeof simpleStyleMap];
+      // @ts-ignore - dynamic key assignment
+      style[styleKey] = value;
+      continue;
+    }
+
+    // Check if it's a native style property
+    if (isStyleKey(key, target)) {
+      // @ts-ignore - dynamic key assignment
+      style[key] = value;
+      continue;
+    }
+
+    // Otherwise, it's a rest prop (event handler, ref, etc.)
+    // @ts-ignore - dynamic key assignment
+    restProps[key] = value;
+  }
+
+  return { style, restProps } as ReturnType<PropsToStyleResolver<T>>;
 };

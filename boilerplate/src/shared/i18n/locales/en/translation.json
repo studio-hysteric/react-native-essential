@@ -38,7 +38,9 @@
     "throw_error": "Throw error"
   },
   "common": {
-    "theme": "Theme"
+    "theme": "Theme",
+    "language": "Language",
+    "today": "Today"
   },
   "error_boundary": {
     "title": "Oops! Something went wrong",
